@@ -1,0 +1,211 @@
+﻿@model QuestionDetailViewModel
+@{
+    ViewData["Title"] = "Question Details";
+    ViewData["Page"] = Pages.Questions;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/question-details.css" />
+    <link rel="stylesheet" href="~/css/code.css">
+}
+
+<div>
+    <strong class="fz-1-3rem">@Model.Title</strong>
+    <a asp-action="Create" asp-controller="Questions" class="btn btn-primary fz-1-3rem float-right">Ask Question</a>
+</div>
+<p>Asked on @Model.CreatedDateUtc.ToLocalTime().ToFormatedDatetimeString()&nbsp; Viewed @Model.Views.ToShortFormatedDisplayString() times</p>
+<br />
+<hr />
+<div class="post mb-2">
+    <div class="votes-section">
+        @if (Model.CanVote)
+        {
+            <a asp-action="UpVote" asp-controller="Votes" asp-route-postId="@Model.Id" class="bg-transparent vote-btn"><i class="fa fa-caret-up fa-4x"></i></a>
+        }
+        <span class="fz-1-5rem text-center">@Model.VotesScore</span>
+        @if (Model.CanVote)
+        {
+            <a asp-action="DownVote" asp-controller="Votes" asp-route-postId="@Model.Id" class="bg-transparent vote-btn"><i class="fa fa-caret-down fa-4x"></i></a>
+        }
+    </div>
+    <div class="post-description mb-3">
+        <p>@Model.Description</p>
+        <pre class="mb-3">
+        <code class="c# hljs">
+                @Model.Code
+            </code>
+        </pre><br />
+        @if (Model.Tags.Any())
+        {
+            <div class="tags mb-4">
+                @foreach (var tag in Model.Tags.SplitByComma())
+                {
+                    <span class="tag">@tag</span>
+
+                }
+            </div><br />
+        }
+
+        <div class="post-footer mb-2">
+            @if (Model.CanAlterQuestion)
+            {
+                <div class="footer-buttons">
+                    <a asp-controller="Questions" asp-action="Edit" asp-route-questionId="@Model.Id" class="btn btn-warning">Edit</a>
+                    <a asp-controller="Questions" asp-action="Delete" asp-route-questionId="@Model.Id" class="btn btn-danger">Delete</a>
+                </div>
+            }
+
+            @if (Model.EditedDateUtc != Model.CreatedDateUtc)
+            {
+                <div class="footer-edit-time">
+                    edited @Model.EditedDateUtc.ToLocalTime().ToFormatedDatetimeString()
+                </div>
+            }
+
+            <div class="footer-poster-info">
+                <span>asked @Model.CreatedDateUtc.ToLocalTime().ToFormatedDatetimeString()</span><br />
+                <img class="poster-img" src="~/images/default.jpeg" />
+                <span class="fz-1-1rem">@Model.DisplayName</span>
+            </div>
+        </div><hr />
+        @if (Model.Comments.Any())
+        {
+            <div class="comments ml-2" id="comments">
+                @foreach (var comment in Model.Comments)
+                {
+                    <p class="comment">
+                        @comment.Description – @comment.DisplayName @comment.CreatedDateUtc.ToLocalTime().ToFormatedDatetimeString()
+                        @if (comment.CanAlterComment)
+                        {
+                            <text>&nbsp;</text><a asp-controller="Comments" asp-action="Delete" asp-route-id="@comment.Id"><i class="fa fa-trash"></i></a>
+                        }
+                    </p>
+                }
+            </div>
+        }
+        @if (Model.CanComment)
+        {
+            <form asp-controller="Comments" asp-action="Create">
+                <input type="hidden" name="PostId" value="@Model.Id" />
+                <input name="Text" class="commentInput" placeholder="your comment" />
+            </form>
+        }
+
+    </div>
+</div>
+@if (!Model.Answers.Any())
+{
+    <h3 class="text-center mt-5">No Answers yet</h3>
+    <br />
+}
+else
+{
+    <h3 class="mb-3">@Model.Answers.Count Answers</h3>
+    <div class="posts mb-3">
+        @foreach (var answer in Model.Answers)
+        {
+            <div class="post">
+                <div class="votes-section">
+                    @if (answer.CanVote)
+                    {
+                        <a asp-action="UpVote" asp-controller="Votes" asp-route-postId="@answer.Id" class="bg-transparent vote-btn"><i class="fa fa-caret-up fa-4x"></i></a>
+                    }
+                    <span class="fz-1-5rem text-center">@answer.VotesScore</span>
+                    @if (answer.CanVote)
+                    {
+                        <a asp-action="UpVote" asp-controller="Votes" asp-route-postId="@answer.Id" class="bg-transparent vote-btn"><i class="fa fa-caret-down fa-4x"></i></a>
+                    }
+
+                    @if (answer.IsAccepted)
+                    {
+                        <i class="fa fa-check fa-4x color-green"></i>
+                    }
+                </div>
+                <div class="post-description mb-3">
+                    <p>@Model.Description</p>
+                    <pre class="mb-3">
+                        <code class="c# hljs">
+                            @answer.Code
+                        </code>
+                    </pre><br />
+                    <div class="post-footer">
+                        <div class="footer-buttons">
+                            @if (answer.CanAlterAnswer)
+                            {
+                                <a asp-controller="Answers" asp-action="Edit" asp-route-answerId="@answer.Id" class="btn btn-warning">Edit</a>
+                                <a asp-controller="Answers" asp-action="Delete" asp-route-answerId="@answer.Id" class="btn btn-danger">Delete</a>
+                            }
+
+                            @if (Model.CanAlterQuestion && !answer.IsAccepted)
+                            {
+                                <a asp-controller="Answers" asp-action="MarkAsAccepted" asp-route-answerId="@answer.Id" class="btn btn-success">Accept</a>
+                            }
+                        </div>
+
+                        @if (answer.EditedDateUtc != answer.CreatedDateUtc)
+                        {
+                            <div class="footer-edit-time">
+                                edited @answer.EditedDateUtc.ToLocalTime().ToFormatedDatetimeString()
+                            </div>
+
+                        }
+                        <div class="footer-poster-info">
+                            <p>asked @answer.CreatedDateUtc.ToLocalTime().ToFormatedDatetimeString()</p>
+                            <img class="poster-img" src="~/images/default.jpeg" />
+                            <span>@answer.DisplayName</span>
+                        </div>
+                    </div><hr />
+                    @if (Model.Comments.Any())
+                    {
+                        <div class="comments ml-2" id="comments">
+                            @foreach (var comment in answer.Comments)
+                            {
+                                <p class="comment">
+                                    @comment.Description – @comment.DisplayName @comment.CreatedDateUtc.ToLocalTime().ToFormatedDatetimeString()
+                                    @if (comment.CanAlterComment)
+                                    {
+                                        <text>&nbsp;</text><a asp-controller="Comments" asp-action="Delete" asp-route-commentId="@comment.Id"><i class="fa fa-trash"></i></a>
+                                    }
+                                </p>
+                            }
+                        </div>
+                    }
+                    @if (Model.CanComment)
+                    {
+                        <form asp-controller="Comments" asp-action="Create">
+                            <input type="hidden" name="PostId" value="@answer.Id" />
+                            <input name="Text" class="commentInput" placeholder="your comment" />
+                        </form>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+}
+
+
+@if (!Model.Answers.Any())
+{
+    <h4>Know someone who can answer? share a link to this question.</h4>
+}
+@if (User?.Identity?.IsAuthenticated ?? false)
+{
+    <h3 class="mb-2">Your Answer</h3>
+    <form asp-controller="Answers" asp-action="Create">
+        <input type="hidden" name="QuestionId" value="@Model.Id" />
+        <div class="form-group">
+            <label for="answerDescription" class="col-form-label">Description</label>
+            <textarea rows="6" class="form-control" id="answerDescription" name="Description" placeholder="answer description"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="code" class="col-form-label">Code</label>
+            <textarea rows="6" class="form-control" id="code" name="Code" placeholder="answer code"></textarea>
+        </div><br />
+        <button type="submit" class="btn btn-primary fz-1-3rem mb-5 mt-3">Post Answer</button>
+    </form>
+}
+
+@section Scripts {
+    <script src="~/js/code.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+}

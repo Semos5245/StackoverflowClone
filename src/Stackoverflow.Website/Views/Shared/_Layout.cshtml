@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Stackoverflow.Website</title>
+    <link rel="stylesheet" href="~/lib/bootstrap-4.5.3-dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/plugins/font-awesome/css/font-awesome.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <style>
+        @if (User.IsInRole(Roles.Admin))
+        {
+            <text>
+            .top-bar {
+                border-top: 3px solid red;
+            }
+            </text>
+        }
+        else if (User.IsInRole(Roles.CompanyOwner))
+        {
+            <text>
+            .top-bar {
+                border-top: 3px solid blue;
+            }
+            </text>
+        }
+        else
+        {
+            <text>
+            .top-bar {
+                border-top: 3px solid darkorange;
+            }
+            </text>
+        }
+    </style>
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+    <header class="top-bar">
+        <div class="brand">
+            <span>Logo</span>&nbsp;<span>Stack overflow</span>
+        </div>
+        <div class="search">
+            <form method="get" asp-controller="Search" asp-action="Index">
+                <input class="search-input form-control" name="Query" placeholder="Type your question..." />
+            </form>
+        </div>
+        <div class="auth">
+            @if (User?.Identity?.IsAuthenticated ?? false)
+            {
+                <a asp-action="Logout" asp-controller="Account" class="btn btn-light fz-1-3rem">Logout</a>
+            }
+            else
+            {
+                <a asp-controller="Account" asp-action="Login" class="btn btn-light fz-1-3rem">Login</a>
+                <a asp-controller="Account" asp-action="Signup" class="btn btn-light fz-1-3rem">Sign up</a>
+            }
+        </div>
+    </header>
+    <div class="side-bar">
+        <div class="side-bar-item">
+            <a asp-action="Index" asp-controller="Home"
+               class="side-bar-link @(ViewData["Page"]?.Equals(Pages.Home) ?? false ? "active-tab" : "")">Home</a>
+        </div>
+        <div class="side-bar-item">
+            <a asp-action="Index" asp-controller="Questions"
+               class="side-bar-link @(ViewData["Page"]?.Equals(Pages.Questions) ?? false ? "active-tab" : "")">Questions</a>
+        </div>
+        @if (User?.IsInRole(Roles.Admin) ?? false)
+        {
+            <div class="side-bar-item">
+                <a asp-action="Users" asp-controller="Account"
+                   class="side-bar-link @(ViewData["Page"]?.Equals(Pages.Users) ?? false ? "active-tab" : "")">Users</a>
+            </div>
+        }
+
+        <div class="side-bar-item">
+            <a asp-action="Index" asp-controller="Jobs"
+               class="side-bar-link @(ViewData["Page"]?.Equals(Pages.Jobs) ?? false ? "active-tab" : "")">Jobs</a>
+        </div>
+        <div class="side-bar-item">
+            <a asp-action="Companies" asp-controller="Jobs"
+               class="side-bar-link @(ViewData["Page"]?.Equals(Pages.Companies) ?? false ? "active-tab" : "")">Companies</a>
+        </div>
+        @if (User?.IsInRole(Roles.CompanyOwner) ?? false)
+        {
+            <div class="side-bar-item">
+                <a asp-action="MyCompany" asp-controller="Jobs"
+                   class="side-bar-link ">My Company</a>
+            </div>
+        }
+    </div>
+    <div class="content">
+        <div class="main-content">
+            @RenderBody()
+        </div>
+        <div class="side-details">
+            <h4 class="text-center">
+                Ads
+            </h4>
+        </div>
+    </div>
+
+    <footer>
+        <h1 style="color: white;">Footer</h1>
+    </footer>
+
+    @RenderSection("Modals", required: false)
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap-4.5.3-dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

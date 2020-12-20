@@ -1,0 +1,22 @@
+﻿.header {
+    display: grid;
+    grid-template-columns: 13rem 1fr;
+    grid-template-areas: "logo details";
+    grid-gap: 1rem;
+}
+
+.company-logo {
+    grid-area: logo;
+    width: 13rem;
+    height: 13rem;
+    margin: auto;
+}
+
+.details {
+    grid-area: details;
+    margin: auto 0;
+}
+
+.opening {
+    background-color: #fffcfc;
+}

@@ -1,0 +1,62 @@
+﻿@model JobDetailsViewModel 
+@{
+    ViewData["Title"] = "Job Details";
+    ViewData["Page"] = Pages.Jobs;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/job-details.css" />
+}
+
+<br />
+<br />
+<div class="header">
+    <img class="company-logo" src="~/images/@Model.CompanyLogoFileName" />
+    <div class="details">
+        <h2>@Model.Title</h2>
+        <p>@Model.CompanyName -- @(string.IsNullOrEmpty(Model.CompanyLocation) ? "No Office Location" : Model.CompanyLocation)</p>
+        <p><span>$@Model.MinAnnualSalary.ToSalaryDisplayString() - $@Model.MaxAnnualSalary.ToSalaryDisplayString()</span>&nbsp;<span class="remote">@(Model.IsRemote ? "Remote" : "")</span></p>
+        <button class="btn btn-primary fz-1-3rem">Apply</button>
+
+        @if (Model.CanModifyJob)
+        {
+            <a asp-controller="Jobs" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning fz-1-3rem">Edit</a>
+            <a asp-controller="Jobs" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger fz-1-3rem">Delete</a>
+        }
+    </div>
+</div>
+<br />
+<hr />
+
+<p><i class="fa fa-timer"></i>&nbsp;Posted @Model.CreatedFromUtc.ToLocalTime().ToSimpleDatetimeDifferenceString()</p>
+<br />
+<h3>About this job</h3>
+<div class="row">
+    <div class="col-md-5">
+        <div class="col-md-12"><label class="fz-1-3rem">Job Type:&nbsp;<strong>@Model.Type</strong></label></div>
+        <div class="col-md-12"><label class="fz-1-3rem">Experience level:&nbsp;<strong>@Model.ExperienceLevel</strong></label></div>
+        <div class="col-md-12"><label class="fz-1-3rem">Role:&nbsp;<strong>@Model.Role</strong></label></div>
+    </div>
+    <div class="col-md-5 offset-1">
+        <div class="col-md-12"><label class="fz-1-3rem">Industry:&nbsp;<strong>@Model.Industry</strong></label></div>
+        <div class="col-md-12"><label class="fz-1-3rem">Company size:&nbsp;<strong>@Model.CompanySize people</strong></label></div>
+    </div>
+</div>
+<br />
+
+<h3>Technologies</h3>
+<div class="tags">
+    @foreach(var tag in Model.TechnologiesNeeded.SplitByComma())
+    {
+        <span class="tag">@tag</span>
+    }
+</div>
+<br />
+<br />
+
+<h3>Job Description</h3>
+<br />
+<p class="fz-1-3rem">@Model.Description</p>
+<br />
+<button class="btn btn-primary fz-1-3rem">Apply</button>
+<hr />

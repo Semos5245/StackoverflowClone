@@ -1,0 +1,23 @@
+﻿.jobs {
+    display: flex;
+    flex-direction: column;
+}
+
+.job {
+    border-bottom: 1px solid lightgray;
+    display: grid;
+    grid-template-columns: 12rem 1fr;
+    grid-template-areas: "logo details";
+    grid-gap: 1rem;
+}
+
+.job-company-logo {
+    grid-area: logo;
+    width: 10rem;
+    height: 10rem;
+    margin: 0 auto;
+}
+
+.job-details {
+    grid-area: details;
+}

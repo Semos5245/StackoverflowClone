@@ -1,0 +1,40 @@
+﻿.questions {
+    display: flex;
+    flex-direction: column;
+}
+
+.question {
+    display: grid;
+    grid-template-columns: 15rem 1fr;
+    grid-template-areas:
+        "counts details";
+    grid-gap: 1rem;
+    border-bottom: 1px solid lightgray;
+}
+
+.counts {
+    grid-area: counts;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.count {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
+
+.count-value {
+    font-size: 1.3rem;
+    margin: auto;
+}
+
+.count-title {
+    font-size: 1.3rem;
+    margin: auto;
+}
+.question-detail {
+    grid-area: details;
+    padding: 1rem;
+}

@@ -1,0 +1,68 @@
+﻿body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    display: grid;
+    height: 100vh;
+    grid-template-rows: 5.5rem 1fr;
+    grid-template-areas: "header" "content";
+    grid-gap: 0.2rem;
+}
+
+.top-bar {
+    grid-area: header;
+    background-color: #eeeeff;
+    position: sticky;
+    border-top: 3px solid darkorange;
+    border-bottom: 1px solid gray;
+    display: grid;
+    grid-template-columns: 16rem 1fr 14.5rem;
+    grid-template-areas: "brand search auth";
+    align-content: center;
+    justify-content: center;
+}
+
+.brand {
+    grid-area: brand;
+    margin: auto;
+    font-size: 1.5rem;
+}
+
+.search {
+    width: 100%;
+    grid-area: search;
+}
+
+.search-input {
+    width: 100%;
+    min-height: 50px;
+    font-size: 1.5rem;
+}
+
+.auth {
+    grid-area: auth;
+    margin: auto;
+    font-size: 1.1rem;
+}
+
+.content {
+    grid-area: content;
+    background-color: lightgray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.fz-1-3rem {
+    font-size: 1.3rem;
+}
+
+.auth-box {
+    width: 23rem;
+    height: 30rem;
+    border-radius: 1rem;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

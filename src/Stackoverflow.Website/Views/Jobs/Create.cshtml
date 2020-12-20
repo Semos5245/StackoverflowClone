@@ -1,0 +1,74 @@
+﻿@model CreateJobViewModel
+@{
+    ViewData["Title"] = "Create Job";
+    ViewData["Page"] = Pages.Jobs;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css" />
+}
+
+<h2>Create New Job</h2>
+<br />
+<form method="post" asp-action="Create" asp-controller="Jobs">
+    <div class="form-group">
+        <label class="col-form-label" asp-for="Title">Title</label>
+        <input class="form-control" asp-for="Title" placeholder="title" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="col-form-label" asp-for="Role">Role</label>
+        <input class="form-control" asp-for="Role" placeholder="role" />
+        <span asp-validation-for="Role" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="col-form-label" asp-for="TechnologiesNeeded">Technologies Needed</label>
+        <input asp-for="TechnologiesNeeded" class="form-control" data-role="tagsinput" />
+        <span asp-validation-for="TechnologiesNeeded" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="col-form-label" asp-for="Type">Job Type</label>
+        <select class="form-control" asp-for="Type">
+            <option value="0">Choose a type</option>
+            <option value="1">Full Time</option>
+            <option value="2">Part Time</option>
+            <option value="3">Task Based</option>
+        </select>
+        <span asp-validation-for="Type" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="col-form-label" asp-for="ExperienceLevel">Experience Level</label>
+        <select class="form-control" asp-for="ExperienceLevel">
+            <option value="0">Choose a level</option>
+            <option value="1">Senior</option>
+            <option value="2">Mid-Level</option>
+            <option value="3">Junior</option>
+        </select>
+        <span asp-validation-for="ExperienceLevel" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="col-form-label" asp-for="MinAnnualSalary">Minimum Annual Salary</label>
+        <input type="number" class="form-control" asp-for="MinAnnualSalary" placeholder="50000" />
+        <span asp-validation-for="MinAnnualSalary" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="col-form-label" asp-for="MaxAnnualSalary">Maximum Annual Salary</label>
+        <input type="number" class="form-control" asp-for="MaxAnnualSalary" placeholder="100000" />
+        <span asp-validation-for="MaxAnnualSalary" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="col-form-label" asp-for="Description">Description</label>
+        <textarea class="form-control" asp-for="Description" placeholder="Job description" rows="6"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" style="width: 1rem; height: 1rem;" asp-for="IsRemote" />&nbsp;
+        <label class="form-check-label fz-1-3rem" asp-for="IsRemote">Remote</label>
+        <span asp-validation-for="IsRemote" class="text-danger"></span>
+    </div><br />
+    <button type="submit" class="btn btn-primary w-25">Create</button>
+</form>
+
+@section Scripts {
+    <script src="~/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
+}

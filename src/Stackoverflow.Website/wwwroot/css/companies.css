@@ -1,0 +1,23 @@
+﻿.companies {
+    display: flex;
+    flex-direction: column;
+}
+
+.company {
+    border-bottom: 1px solid lightgray;
+    display: grid;
+    grid-template-columns: 8rem 1fr;
+    grid-template-areas: "logo details";
+    grid-gap: 1rem;
+    margin-top: 1rem;
+}
+
+.company-logo {
+    grid-area: logo;
+    width: 9rem;
+    height: 9rem;
+}
+
+.details {
+    grid-area: details;
+}

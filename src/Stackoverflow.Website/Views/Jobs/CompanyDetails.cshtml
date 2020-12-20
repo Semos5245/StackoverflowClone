@@ -1,0 +1,88 @@
+﻿@model CompanyDetailViewModel
+@{
+    ViewData["Title"] = "Company Details";
+    ViewData["Page"] = Pages.Companies;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/company-details.css" />
+    <link rel="stylesheet" href="~/css/jobs.css" />
+}
+
+<div class="header">
+    <img class="company-logo" src="~/images/@Model.LogoFileName" />
+    <div class="details">
+        <h1>@Model.Name</h1>
+        <p class="fz-1-3rem">@Model.ShortQuote</p><br />
+
+        @if (Model.CanModifyCompany)
+        {
+            <a asp-controller="Jobs" asp-action="EditCompany" asp-route-companyId="@Model.Id" class="btn btn-danger fz-1-3rem">Edit</a>
+        }
+    </div>
+</div>
+<br />
+<hr />
+<h2>About</h2>
+<br />
+<div class="row">
+    <div class="col-md-5">
+        <div class="col-md-12"><label class="fz-1-3rem">WEBSITE:&nbsp;<strong><a href="@Model.WebsiteUrl">@Model.Name</a></strong></label></div>
+        <div class="col-md-12"><label class="fz-1-3rem">SIZE:&nbsp;<strong>@Model.Size people</strong></label></div>
+        <div class="col-md-12"><label class="fz-1-3rem">LOCATION:&nbsp;<strong>@(string.IsNullOrEmpty(Model.OfficeLocation) ? "No Location" : Model.OfficeLocation)</strong></label></div>
+    </div>
+    <div class="col-md-5 offset-1">
+        <div class="col-md-12"><label class="fz-1-3rem">INDUSTRY:&nbsp;<strong>@Model.Industry</strong></label></div>
+        <div class="col-md-12"><label class="fz-1-3rem">FOUNDED:&nbsp;<strong>@Model.Founded.Year</strong></label></div>
+    </div>
+</div>
+<br />
+
+<h2>Company Description</h2>
+<br />
+<p class="fz-1-3rem">@Model.LongDescription</p>
+<br />
+
+<h3>Our Tech Stack</h3>
+<div class="tags">
+    @foreach (var tag in Model.TechStack.SplitByComma())
+    {
+        <span class="tag">@tag</span>
+    }
+</div>
+<br />
+<br />
+@if (Model.JobOpenings.Any())
+{
+    <h2>Job Openings</h2>
+    <br />
+    <div class="job-openings">
+        @foreach (var job in Model.JobOpenings)
+        {
+            <div class="job opening" style="margin-top: 1rem;">
+                <img class="job-company-logo" src="~/images/@job.CompanyLogoFileName" />
+                <div class="job-details">
+                    <h3><a asp-action="Details" asp-controller="Jobs" asp-route-id="@job.Id">@job.Title</a></h3>
+                    <p style="font-size: 1.2rem;"><span>@(string.IsNullOrEmpty(Model.OfficeLocation) ? "No Location" : Model.OfficeLocation)</span></p>
+                    @if (job.TechnologiesNeeded.Any())
+                    {
+                        <div class="tags" style="margin-bottom: .4rem;">
+                            @foreach (var tag in job.TechnologiesNeeded.SplitByComma())
+                            {
+                                <span class="tag">@tag</span>
+                            }
+                        </div>
+                    }
+                    <p><span>@job.CreatedFromUtc.ToLocalTime().ToSimpleDatetimeDifferenceString()</span> - <span>$@job.MinAnnualSalary.ToSalaryDisplayString() -- $@job.MaxAnnualSalary.ToSalaryDisplayString() <small style="color: orange">@(job.IsRemote ? "Remote" : "")</small> </span></p>
+                    @if (job.CanModifyJob)
+                    {
+                        <p>
+                            <a asp-controller="Jobs" asp-action="Edit" class="btn btn-warning">Edit</a>
+                            <a asp-controller="Jobs" asp-action="Delete" asp-route-id="@job.Id" class="btn btn-danger">Delete</a>
+                        </p>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+}

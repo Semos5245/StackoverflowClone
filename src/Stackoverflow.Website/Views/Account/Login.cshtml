@@ -1,0 +1,28 @@
+﻿@model LoginViewModel
+@{ 
+    Layout = "_LoginLayout";
+    ViewData["Title"] = "Login";
+}
+
+<div class="auth-box">
+    <form method="post" asp-action="Login" asp-controller="Account" asp-route-returnUrl="@ViewBag.ReturnUrl">
+    <h3 style="text-align: center;">Log in </h3><br />
+        <div asp-validation-summary="All"></div>
+        <div class="form-group">
+            <label asp-for="Email" class="form-label fz-1-3rem">Email</label>
+            <input class="form-control fz-1-3rem" asp-for="Email" placeholder="email" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Password" class="form-label fz-1-3rem">Password</label>
+            <input type="password" class="form-control fz-1-3rem" asp-for="Password" placeholder="password" />
+            <span class="text-danger"></span>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" style="height: 1rem; width: 1rem;" asp-for="RememberMe" />&nbsp;
+            <label class="form-check-label fz-1-3rem" asp-for="RememberMe">Remember me</label>
+        </div><br />
+
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Log in</button>
+    </form>
+</div>

@@ -1,0 +1,65 @@
+﻿@model IEnumerable<JobDetailsViewModel>
+@{
+    ViewData["Title"] = "Jobs";
+    ViewData["Page"] = Pages.Jobs;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/jobs.css" />
+}
+<div class="row">
+    <h2 class="col-md-4">All jobs</h2>
+    <div class="col-md-8">
+        <a asp-controller="Jobs" asp-action="Create" class="btn btn-primary float-right" style="font-size: 1.5rem;">Add Job</a>
+    </div>
+</div>
+<form asp-controller="Jobs" asp-action="Index" style="width: 100%; margin-top: 2rem;" method="get">
+    <div class="row">
+        <div class="col-md-10"><input class="form-control search-input" name="query" value="@ViewBag.Query" placeholder="Search all jobs" /></div>
+        <div class="col-md-1 offset-1"><button type="submit" class="btn btn-primary float-right" style="font-size: 1.5rem;">Search</button></div>
+    </div>
+    <p style="font-size: 1.2rem;">
+        <input type="checkbox" name="mine" id="mine" value="@ViewBag.Mine" style="width: 1rem; height: 1rem;" />&nbsp;
+        <label for="mine">Only mine</label>
+    </p>
+</form>
+<br />
+<br />
+<hr />
+
+@if (!Model.Any())
+{
+    <h3>No Jobs found</h3>
+}
+else
+{
+    <div class="jobs">
+        @foreach (var job in Model)
+        {
+            <div class="job">
+                <img class="job-company-logo" src="~/images/@job.CompanyLogoFileName" />
+                <div class="job-details">
+                    <h3><a asp-action="Details" asp-controller="Jobs" asp-route-id="@job.Id">@job.Title</a></h3>
+                    <p style="font-size: 1.2rem;"><span>@(string.IsNullOrEmpty(job.CompanyLocation) ? "No Office Location" : job.CompanyLocation)</span></p>
+                    @if (job.TechnologiesNeeded.Any())
+                    {
+                        <div class="tags" style="margin-bottom: .4rem;">
+                            @foreach (var tag in job.TechnologiesNeeded.SplitByComma())
+                            {
+                                <span class="tag">@tag</span>
+                            }
+                        </div>
+                    }
+                    <p><span>@job.CreatedFromUtc.ToLocalTime().ToSimpleDatetimeDifferenceString()</span> - <span>$@job.MinAnnualSalary.ToSalaryDisplayString() -- $@job.MaxAnnualSalary.ToSalaryDisplayString()</span></p>
+                    @if (job.CanModifyJob)
+                    {
+                        <p>
+                            <a asp-controller="Jobs" asp-action="Edit" asp-route-jobId="@job.Id" class="btn btn-primary">Edit</a>
+                            <a asp-controller="Jobs" asp-action="Delete" asp-route-jobId="@job.Id" class="btn btn-danger">Delete</a>
+                        </p>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+}

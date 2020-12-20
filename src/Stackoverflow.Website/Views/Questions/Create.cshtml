@@ -1,0 +1,39 @@
+﻿@model CreateQuestionViewModel
+@{
+    ViewData["Title"] = "Create Question";
+    ViewData["Page"] = Pages.Questions;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css" />
+}
+
+<h2>Ask a question</h2>
+<br />
+<form method="post" asp-action="Create" asp-controller="Questions">
+    <div class="form-group">
+        <label class="col-form-label" asp-for="Title">Title</label>
+        <input class="form-control" asp-for="Title" placeholder="title" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="col-form-label" asp-for="Tags">Tags</label>
+        <input asp-for="Tags" class="form-control" data-role="tagsinput" placeholder="C# Asp.net core" />
+        <span asp-validation-for="Tags" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="col-form-label" asp-for="Description">Description</label>
+        <textarea class="form-control" asp-for="Description" placeholder="question description" rows="10"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="col-form-label" asp-for="Code">Code</label>
+        <textarea class="form-control" asp-for="Code" placeholder="question code" rows="10"></textarea>
+        <span asp-validation-for="Code" class="text-danger"></span>
+    </div><br />
+    <button type="submit" class="btn btn-primary fz-1-3rem w-25">Submit</button>
+</form>
+
+@section Scripts {
+    <script src="~/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
+}

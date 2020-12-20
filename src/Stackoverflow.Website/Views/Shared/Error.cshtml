@@ -1,0 +1,7 @@
+﻿@{
+    ViewData["Title"] = "Error";
+    var message = ViewData["Message"]?.ToString() ?? "An error occured while processing you request.";
+}
+
+<h1 class="text-danger">Bad request</h1>
+<h2 class="text-danger">@message</h2>

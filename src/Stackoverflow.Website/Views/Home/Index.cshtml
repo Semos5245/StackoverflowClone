@@ -1,0 +1,73 @@
+﻿@model IEnumerable<QuestionViewModel>
+@{
+    ViewData["Title"] = "Home";
+    ViewData["Page"] = Pages.Home;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/home.css" />
+}
+
+<div class="row">
+    <h2 class="col-md-4">Top Questions</h2>
+    <div class="col-md-8">
+        <a asp-action="Create" asp-controller="Questions" class="btn btn-primary float-right fz-1-5rem">Ask Question</a>
+    </div>
+</div>
+<br />
+<br />
+<hr />
+@if (!Model.Any())
+{
+    <h3 class="text-center">No questions available</h3>
+}
+else
+{
+    <div class="questions">
+        @foreach (var question in Model)
+        {
+            <div class="question">
+                <div class="counts">
+                    <div class="count">
+                        <span class="count-value">@question.Votes</span>
+                        <span class="count-title">votes</span>
+                    </div>
+                    <div class="count @(question.Answers > 0 ? "has-answer" : "") @(question.HasAcceptedAnswer ? "has-accepted-answer" : "")">
+                        <span class="count-value">@question.Answers</span>
+                        <span class="count-title">answers</span>
+                    </div>
+                    <div class="count">
+                        <span class="count-value">@question.Views</span>
+                        <span class="count-title">views</span>
+                    </div>
+                </div>
+                <div class="question-detail">
+                    <h2><a asp-controller="Questions" asp-action="Details" asp-route-questionId="@question.Id" class="block">@question.Title</a></h2>
+                    @if (question.Tags.Any())
+                    {
+                        <div class="tags">
+                            @foreach (var tag in question.Tags.SplitByComma())
+                            {
+                                <span class="tag">@tag</span>
+                            }
+                        </div>
+                    }
+                    @if (question.Answers > 0)
+                    {
+                        <div class="float-right">
+                            @question.AnsweredFromUtc.Value.ToLocalTime().ToSimpleDatetimeDifferenceString()&nbsp;<a href="#">@question.AnswererDisplayName</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="float-right">
+                            @question.AskedFromUtc.ToLocalTime().ToSimpleDatetimeDifferenceString()&nbsp;<a href="#">@question.AskerDisplayName</a>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        }
+
+    </div>
+}

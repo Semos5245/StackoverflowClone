@@ -1,0 +1,74 @@
+﻿.votes-section{
+    grid-area: votes;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.post-description {
+    grid-area: description;
+}
+
+.post-footer{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas: "buttons edit-time poster-info";
+    grid-gap: 1rem;
+}
+
+.footer-buttons{
+    grid-area: buttons;
+}
+
+.footer-edit-time{
+    grid-area: edit-time;
+}
+
+.footer-poster-info{
+    grid-area: poster-info;
+    background-color: lightgray;
+}
+
+.poster-img{
+    width: 4rem;
+    height: 4rem;
+}
+
+.comments{
+    display: flex;
+    flex-direction: column;
+}
+
+.comment{
+    border-bottom: 1px solid #f7f7f7;
+}
+
+.commentInput{
+    border: none;
+    height: 2rem;
+    width: 100%;
+    font-size: 1rem;
+}
+
+.commentInput:focus {
+    outline-color: lightgray;
+}
+
+.posts{
+    display: flex;
+    flex-direction: column;
+}
+
+.post {
+    display: grid;
+    grid-template-columns: 6rem 1fr;
+    grid-template-areas: "votes description";
+    grid-gap: 1rem;
+    border-bottom: 1px solid lightgray;
+    margin-bottom: 2rem;
+}
+
+.vote-btn {
+    border: none;
+    color: lightgray;
+}

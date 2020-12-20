@@ -1,0 +1,71 @@
+﻿@model CreateCompanyViewModel
+@{
+    ViewData["Title"] = "Create Company";
+    ViewData["Page"] = Pages.Users;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css" />
+}
+
+<h2>Create New Company for user <strong>Username</strong></h2>
+<br />
+<form method="post" asp-action="CreateCompany" asp-controller="Jobs" enctype="multipart/form-data">
+    <input type="hidden" asp-for="UserId" />
+    <div class="form-group">
+        <label class="col-form-label" asp-for="Name">Name</label>
+        <input class="form-control" asp-for="Name" placeholder="name" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="col-form-label" asp-for="ShortQuote">Short Quote</label>
+        <input class="form-control" asp-for="ShortQuote" placeholder="short quote" />
+        <span asp-validation-for="ShortQuote" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="col-form-label" asp-for="TechStack">Tech Stack</label>
+        <input asp-for="TechStack" class="form-control" data-role="tagsinput" />
+        <span asp-validation-for="TechStack" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="col-form-label" asp-for="OfficeLocation">Office Location</label>
+        <input class="form-control" asp-for="OfficeLocation" placeholder="office location" />
+        <span asp-validation-for="OfficeLocation" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="col-form-label" asp-for="Industry">Industry</label>
+        <input class="form-control" asp-for="Industry" placeholder="industry" />
+        <span asp-validation-for="Industry" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="col-form-label" asp-for="WebsiteUrl">Website Url</label>
+        <input class="form-control" asp-for="WebsiteUrl" placeholder="https://www.website.com" />
+        <span asp-validation-for="WebsiteUrl" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="col-form-label" asp-for="Size">Company Size</label>
+        <input type="number" class="form-control" asp-for="Size" placeholder="50" />
+        <span asp-validation-for="Size" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="col-form-label" asp-for="LongDescription">Description</label>
+        <textarea class="form-control" asp-for="LongDescription" placeholder="Job description" rows="6"></textarea>
+        <span asp-validation-for="LongDescription" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="col-form-label" asp-for="Founded">Founded</label>
+        <input type="date" class="form-control" asp-for="Founded" />
+        <span asp-validation-for="Founded" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="col-form-label" asp-for="LogoFile">Logo Image</label>
+        <input type="file" class="form-control" asp-for="LogoFile" />
+        <span asp-validation-for="LogoFile" class="text-danger"></span>
+    </div><br />
+
+    <button type="submit" class="btn btn-primary w-25">Create</button>
+</form>
+
+@section Scripts {
+    <script src="~/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
+}

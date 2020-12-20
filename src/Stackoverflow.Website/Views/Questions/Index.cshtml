@@ -1,0 +1,70 @@
+﻿@model AllQuestionsViewModel
+@{
+    ViewData["Title"] = "Questions";
+    ViewData["Page"] = Pages.Questions;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/questions.css" />
+}
+
+<div class="row">
+    <h2 class="col-md-4">All Questions</h2>
+    <div class="col-md-8">
+        <a asp-action="Create" asp-controller="Questions" class="btn btn-primary float-right fz-1-5rem">Ask Question</a>
+    </div>
+</div>
+<br />
+<br />
+<h3>@Model.Questions.Count Questions</h3>
+<br />
+<hr />
+@if (!Model.Questions.Any())
+{
+    <h3>No Questions Available</h3>
+}
+else
+{
+    <div class="questions">
+        @foreach (var question in Model.Questions)
+        {
+            <div class="question">
+                <div class="counts">
+                    <div class="count">
+                        <span class="count-value">@question.Votes</span>
+                        <span class="count-title">Votes</span>
+                    </div>
+                    <div class="count @(question.Answers > 0 ? "has-answer" : "") @(question.HasAcceptedAnswer ? "has-accepted-answer" : "")">
+                        <span class="count-value">@question.Answers</span>
+                        <span class="count-title">Answers</span>
+                    </div>
+                </div>
+                <div class="question-detail">
+                    <h3><a asp-controller="Questions" asp-action="Details" asp-route-questionId="@question.Id" class="block">@question.Title</a></h3>
+                    @if (question.Description.Length > 200)
+                    {
+                        <p>@question.Description.Substring(0, 200) ...</p>
+                    }
+                    else
+                    {
+                        <p>@question.Description</p>
+                    }
+                    @if (question.Tags.Any())
+                    {
+                        <div class="tags">
+                            @foreach (var tag in question.Tags.SplitByComma())
+                            {
+                                <span class="tag">@tag</span>
+                            }
+                        </div>
+                    }
+                    <span class="float-right">asked @question.AskedFromUtc.ToLocalTime().ToFormatedDatetimeString() .</span><br />
+                    <div class="float-right">
+                        <img src="~/images/default.jpeg" width="35" height="35" />
+                        <a href="#">@question.AskerDisplayName</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

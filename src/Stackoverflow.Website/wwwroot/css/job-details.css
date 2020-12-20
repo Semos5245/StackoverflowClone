@@ -1,0 +1,16 @@
+﻿.header {
+    display: grid;
+    grid-template-columns: 9rem 1fr;
+    grid-template-areas: "logo details";
+    grid-gap: 1rem;
+}
+
+.company-logo {
+    grid-area: logo;
+    width: 9rem;
+    height: 9rem;
+}
+
+.details {
+    grid-area: details;
+}

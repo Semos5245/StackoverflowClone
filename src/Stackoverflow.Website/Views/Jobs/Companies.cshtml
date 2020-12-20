@@ -1,0 +1,74 @@
+﻿@model IEnumerable<CompanyDetailViewModel>
+@{
+    ViewData["Title"] = "Companies";
+    ViewData["Page"] = Pages.Companies;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/companies.css" />
+}
+
+<div class="row">
+    <h2 class="col-md-4">All Companies</h2>
+</div>
+<form asp-controller="Jobs" asp-action="Companies" style="width: 100%; margin-top: 2rem;" method="get">
+    <div class="form-group row">
+        <div class="col-md-10"><input class="form-control search-input" name="query" placeholder="Search all companies" /></div>
+        <div class="col-md-1 offset-1"><button type="submit" class="btn btn-primary float-right" style="font-size: 1.5rem;">Search</button></div>
+    </div>
+</form>
+<br />
+<br />
+<hr />
+
+@if (!Model.Any())
+{
+    <h3>No companies</h3>
+}
+else
+{
+    <div class="companies">
+        @foreach (var company in Model)
+        {
+            <div class="company">
+                <img class="company-logo" src="~/images/@company.LogoFileName" />
+                <div class="company-details">
+                    <h3><a asp-controller="Jobs" asp-action="CompanyDetails" asp-route-name="@company.Name">@company.Name</a></h3>
+                    <p style="font-size: 1.2rem;">
+                        <i class="fa fa-location"></i>&nbsp;<span>@(string.IsNullOrEmpty(company.OfficeLocation) ? "No office location" : company.OfficeLocation))</span>&nbsp;&nbsp;
+                        <i class="fa fa-th"></i>&nbsp;<span>@company.Industry</span>
+                    </p>
+                    @if (company.LongDescription.Length > 100)
+                    {
+                        <p>@company.LongDescription.Substring(0, 100) ...</p>
+                    }
+                    else
+                    {
+                        <p>@company.LongDescription</p>
+                    }
+
+                    @if (company.TechStack.Any())
+                    {
+                        <div class="tags" style="margin-bottom: .4rem;">
+                            @foreach (var tag in company.TechStack.SplitByComma())
+                            {
+                                <span class="tag">@tag</span>
+                            }
+                        </div>
+                    }
+
+                    @if (company.OpenedJobs > 0)
+                    {
+                        <span class="job-tag">@company.OpenedJobs Jobs</span>
+                    }
+                    @if (company.CanModifyCompany)
+                    {
+                        <p>
+                            <a asp-controller="Jobs" asp-action="EditCompany" class="btn btn-warning">Edit</a>
+                        </p>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+}

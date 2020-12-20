@@ -1,0 +1,29 @@
+﻿@model SignupViewModel
+@{
+    Layout = "_LoginLayout";
+    ViewData["Title"] = "Sign up";
+}
+
+<div class="auth-box">
+    <form method="post" asp-action="Signup" asp-controller="Account">
+        <h3 style="text-align: center;">Sign up</h3><br />
+        <div asp-validation-summary="All"></div>
+        <div class="form-group">
+            <label asp-for="Email" class="form-label fz-1-3rem">Email</label>
+            <input class="form-control fz-1-3rem" asp-for="Email" placeholder="email" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Password" class="form-label fz-1-3rem">Password</label>
+            <input type="password" class="form-control fz-1-3rem" asp-for="Password" placeholder="password" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="DisplayName" class="form-label fz-1-3rem">Display Name</label>
+            <input class="form-control fz-1-3rem" asp-for="DisplayName" placeholder="display name" />
+            <span asp-validation-for="DisplayName" class="text-danger"></span>
+        </div><br />
+
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Sign up</button>
+    </form>
+</div>
