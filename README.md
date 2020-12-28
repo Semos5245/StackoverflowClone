@@ -1,7 +1,7 @@
 # StackoverflowClone
 Simpel clone of the Stackoverflow website implementing the simple functionalities in it.
 
-Website was built using ASP.NET Core, Entity Framework Core, SQL Server, basic web technologies
+System was built using ASP.NET Core, Entity Framework Core, SQL Server, basic web technologies
 
 Features included:
 - Posting a question, answer
